@@ -54,12 +54,15 @@ function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
     }
 }
 
-function foldTree<A, B>(f: (A, Tree<B>, Tree<B>) -> Tree<B>, e: Tree<B>, t: Tree<A>): Tree<B>  
+function foldTree(f: (int, int, int) -> int, e: int, t: Tree) returns (res: int)
 {
-    match t
-    {
-        case Leaf => return e;
-        case Node(x, l, r) => return f(x, foldTree(f, e, l), foldTree(f, e, r));
+    if t == Leaf {
+        res := e;
+    } else {
+        var x := t.x;
+        var l := t.l;
+        var r := t.r;
+        res := f(x, foldTree(f, e, l), foldTree(f, e, r));
     }
 }
 
