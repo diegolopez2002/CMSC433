@@ -50,16 +50,16 @@ function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
     match t
     {
         case Leaf => return Leaf;
-        case Node(d, l, r) => return Node(f(d), mapTree(f, l), mapTree(f, r));
+        case Node(x, l, r) => return Node(f(x), mapTree(f, l), mapTree(f, r));
     }
 }
 
-function foldTree<A, B>(f: (A, B, B) -> B, e: B, t: Tree<A>): B  
+function foldTree<A, B>(f: (A, Tree<B>, Tree<B>) -> Tree<B>, e: Tree<B>, t: Tree<A>): Tree<B>  
 {
     match t
     {
-        case Leaf => e;
-        case Node(d, l, r) => f(d, foldTree(f, e, l), foldTree(f, e, r));
+        case Leaf => return e;
+        case Node(x, l, r) => return f(x, foldTree(f, e, l), foldTree(f, e, r));
     }
 }
 
