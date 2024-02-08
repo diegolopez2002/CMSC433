@@ -45,7 +45,13 @@ let rec foldTree f e t =
 Here is the stub for map:
 
 */
-function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B> 
+function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
+    ensures result == 
+        match t
+        {
+            case Leaf => Leaf;
+            case Node(x, l, r) => Node(f(x), mapTree(f, l), mapTree(f, r));
+        }
 {
     match t
     {
@@ -54,15 +60,18 @@ function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
     }
 }
 
-function foldTree(f: (int, int, int) -> int, e: int, t: Tree) returns (res: int)
+function foldTree<T, R>(f: (T, R, R) -> R, e: R, t: Tree<T>): R
+    ensures result == 
+        match t
+        {
+            case Leaf => e;
+            case Node(x, l, r) => f(x, foldTree(f, e, l), foldTree(f, e, r));
+        }
 {
-    if t == Leaf {
-        res := e;
-    } else {
-        var x := t.x;
-        var l := t.l;
-        var r := t.r;
-        res := f(x, foldTree(f, e, l), foldTree(f, e, r));
+    match t
+    {
+        case Leaf => return e;
+        case Node(x, l, r) => return f(x, foldTree(f, e, l), foldTree(f, e, r));
     }
 }
 
