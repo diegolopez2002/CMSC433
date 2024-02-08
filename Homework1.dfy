@@ -60,21 +60,14 @@ function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
     }
 }
 
-function foldTree<T, R>(f: (T, R, R) -> R, e: R, t: Tree<T>): R
-    ensures result == 
-        match t
-        {
-            case Leaf => e;
-            case Node(x, l, r) => f(x, foldTree(f, e, l), foldTree(f, e, r));
-        }
+function foldTree<A, B>(f: (A, B, B, B) -> B, e: B, t: Tree<A>): B  
 {
     match t
     {
         case Leaf => return e;
-        case Node(x, l, r) => return f(x, foldTree(f, e, l), foldTree(f, e, r));
+        case Node(x, l, r) => return f(x, foldTree(f, e, l), foldTree(f, e, r), e);
     }
 }
-
 /* Fill in your own template for fold, with the same argument order as the OCaml code. */
 
 /* Exercise 3 (20 points)
