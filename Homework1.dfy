@@ -54,14 +54,14 @@ function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
     }
 }
 
-/* function foldTree<A, B>(f: (A, Tree<B>, Tree<B>) -> Tree<B>, e: Tree<B>, t: Tree<A>): Tree<B>  
+function foldTree<A, B>(f: (A, Tree<B>, Tree<B>) -> Tree<B>, e: Tree<B>, t: Tree<A>): Tree<B>  
 {
     match t
     {
         case Leaf => return e;
         case Node(x, l, r) => return f(x, foldTree(f, e, l), foldTree(f, e, r));
     }
-} */ 
+}
 
 /* Fill in your own template for fold, with the same argument order as the OCaml code. */
 
