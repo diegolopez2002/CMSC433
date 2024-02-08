@@ -13,7 +13,7 @@ function mystery_function(x:int, y:int, z:int): int {
     var a := x + y;
     var b := y + z;
     var c := x + z;
-    return (a + b + c) / 2
+    (a + b + c) / 2
 }
 /* Exercise 2 (20 points)
 
