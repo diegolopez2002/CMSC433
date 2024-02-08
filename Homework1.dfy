@@ -45,29 +45,25 @@ let rec foldTree f e t =
 Here is the stub for map:
 
 */
-function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
-    ensures result == 
-        match t
-        {
-            case Leaf => Leaf;
-            case Node(x, l, r) => Node(f(x), mapTree(f, l), mapTree(f, r));
-        }
+
+function foldTree<A, B>(f: (A, B, B) -> B, e: B, t: Tree<A>): B  
 {
     match t
     {
-        case Leaf => return Leaf;
-        case Node(x, l, r) => return Node(f(x), mapTree(f, l), mapTree(f, r));
+        case Leaf => e;
+        case Node(d, l, r) => f(d, foldTree(f, e, l), foldTree(f, e, r));
     }
 }
 
-function foldTree<A, B>(f: (A, B, B, B) -> B, e: B, t: Tree<A>): B  
+function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B> 
 {
     match t
     {
-        case Leaf => return e;
-        case Node(x, l, r) => return f(x, foldTree(f, e, l), foldTree(f, e, r), e);
+        case Leaf => Leaf;
+        case Node(d, l, r) => Node(f(d), mapTree(f, l), mapTree(f, r));
     }
 }
+
 /* Fill in your own template for fold, with the same argument order as the OCaml code. */
 
 /* Exercise 3 (20 points)
