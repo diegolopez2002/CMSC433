@@ -58,11 +58,25 @@ function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
 }
 
 function foldTree<A, B>(f: (A -> B -> B -> B), e: B, t: Tree<A>): B
+    requires t != null
 {
     if t == Leaf {
         e
     } else {
-        f(t.data, foldTree(f, e, t.left), foldTree(f, e, t.right))
+        foldTreeRec(f, t, e)
+    }
+}
+
+function foldTreeRec<A, B>(f: (A -> B -> B -> B), t: Tree<A>, acc: B): B
+    requires t != null
+    ensures result == foldTree(f, acc, t)
+{
+    if t == Leaf {
+        acc
+    } else {
+        var leftResult := foldTreeRec(f, t.left, acc);
+        var rightResult := foldTreeRec(f, t.right, acc);
+        f(t.data, leftResult, rightResult)
     }
 }
 /* Fill in your own template for fold, with the same argument order as the OCaml code. */
