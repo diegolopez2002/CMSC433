@@ -8,8 +8,7 @@ let mystery_function x y z =
   let c = x + z in 
   (a+b+c) / 2
 */
-
-function mystery_function(x:int, y:int, z:int): int {
+function mystery_function(x:int,y:int,z:int):int {
 
     var a := x + y;
     var b := y + z;
@@ -18,7 +17,6 @@ function mystery_function(x:int, y:int, z:int): int {
     result
 
 }
-
 
 /* Exercise 2 (20 points)
 
@@ -50,14 +48,14 @@ let rec foldTree f e t =
 Here is the stub for map:
 
 */
-
-function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
-{
+function mapTree<A,B> (f: A -> B, t: Tree<A>): Tree<B> {
+  
     match t
     | Leaf => 
         Leaf
     | Node(data, left, right) =>
         Node(f(data), mapTree(f, left), mapTree(f, right))
+
 }
 
 function foldTree<A, B>(f: (A -> B -> B -> B), e: B, t: Tree<A>): B
@@ -85,13 +83,11 @@ wrapper, by invoking Dafny map functions as seen on the slides.
 
 datatype MapSet<T> = MapSet (s : map<T,bool>)
 
-predicate member<T> (m:MapSet<T>, x:T) 
-{
+predicate member<T> (m:MapSet<T>, x:T) {
     m.s[x] == true
 }
 
-function size<T> (m:MapSet<T>): int 
-{
+function size<T> (m:MapSet<T>): int {
     var count := 0;
     for k in m.s.Keys do
         if m.s[k] == true {
@@ -100,12 +96,17 @@ function size<T> (m:MapSet<T>): int
     count
 }
 
-function insert<T> (m:MapSet<T>, x:T): MapSet<T> 
+function insert<T> (m:MapSet<T>, x:T): MapSet<T> {
+    
+    MapSet (map[)
+}
+
+function insert<T> (m: MapSet<T>, x: T): MapSet<T>
 {
     MapSet<T>(m.s[x := true])
 }
 
-function delete<T> (m:MapSet<T>, x:T): MapSet<T> 
+function delete<T> (m: MapSet<T>, x: T): MapSet<T>
 {
     MapSet<T>(m.s[x := false])
 }
