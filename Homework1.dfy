@@ -46,22 +46,26 @@ Here is the stub for map:
 
 */
 
-function foldTree<A, B>(f: (A, B, B) -> B, e: B, t: Tree<A>): B  
+function fold<A, B>(f: (A -> B -> B -> B) -> B, t: Tree<A>): B
+  decreases t
 {
     match t
-    {
-        case Leaf => e;
-        case Node(d, l, r) => f(d, foldTree(f, e, l), foldTree(f, e, r));
-    }
+    case Leaf => 
+        f(\a b c => b)
+    case Node(v, left, right) =>
+        let leftFold := fold(f, left);
+        let rightFold := fold(f, right);
+        f(\a b c => a(v, leftFold, rightFold))
 }
 
-function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B> 
+function mapTree<A,B> (f: A -> B, t: Tree<A>): Tree<B>
+  decreases t
 {
     match t
-    {
-        case Leaf => Leaf;
-        case Node(d, l, r) => Node(f(d), mapTree(f, l), mapTree(f, r));
-    }
+    case Leaf => 
+        Leaf
+    case Node(v, left, right) =>
+        Node(f(v), mapTree(f, left), mapTree(f, right))
 }
 
 /* Fill in your own template for fold, with the same argument order as the OCaml code. */
