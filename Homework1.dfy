@@ -48,23 +48,23 @@ let rec foldTree f e t =
 Here is the stub for map:
 
 */
-function mapTree<A,B> (f: A -> B, t: Tree<A>): Tree<B> {
-  
-    match t
-    | Leaf => 
-        Leaf
-    | Node(data, left, right) =>
-        Node(f(data), mapTree(f, left), mapTree(f, right))
 
+function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
+{
+    match t
+    {
+        case Leaf => Leaf;
+        case Node(data, left, right) => Node(f(data), mapTree(f, left), mapTree(f, right));
+    }
 }
 
 function foldTree<A, B>(f: (A -> B -> B -> B), e: B, t: Tree<A>): B
 {
     match t
-    | Leaf => 
-        e
-    | Node(data, left, right) =>
-        f(data, foldTree(f, e, left), foldTree(f, e, right))
+    {
+        case Leaf => e;
+        case Node(data, left, right) => f(data, foldTree(f, e, left), foldTree(f, e, right));
+    }
 }
 
 /* Fill in your own template for fold, with the same argument order as the OCaml code. */
