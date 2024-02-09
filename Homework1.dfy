@@ -51,27 +51,24 @@ Here is the stub for map:
 
 */
 
-function fold<A, B>(f: (A -> B -> B -> B) -> B, t: Tree<A>): B
-  decreases t
+function mapTree<A,B> (f: A -> B, t: Tree<A>): Tree<B>
 {
     match t
-    case Leaf => 
-        f(\a b c => b)
-    case Node(v, left, right) =>
-        let leftFold := fold(f, left);
-        let rightFold := fold(f, right);
-        f(\a b c => a(v, leftFold, rightFold))
+    | Leaf => 
+        Leaf
+    | Node(data, left, right) =>
+        Node(f(data), mapTree(f, left), mapTree(f, right))
 }
 
-function mapTree<A,B> (f: A -> B, t: Tree<A>): Tree<B>
-  decreases t
+function foldTree<A, B>(f: (A -> B -> B -> B), e: B, t: Tree<A>): B
 {
     match t
-    case Leaf => 
-        Leaf
-    case Node(v, left, right) =>
-        Node(f(v), mapTree(f, left), mapTree(f, right))
+    | Leaf => 
+        e
+    | Node(data, left, right) =>
+        f(data, foldTree(f, e, left), foldTree(f, e, right))
 }
+
 
 /* Fill in your own template for fold, with the same argument order as the OCaml code. */
 
@@ -89,22 +86,27 @@ wrapper, by invoking Dafny map functions as seen on the slides.
 
 datatype MapSet<T> = MapSet (s : map<T,bool>)
 
-predicate member<T>(m: MapSet<T>, x: T) 
+predicate member<T> (m:MapSet<T>, x:T) 
 {
     m.s[x] == true
 }
 
-function size<T>(m: MapSet<T>): int 
+function size<T> (m:MapSet<T>): int 
 {
-    |m.s|
+    var count := 0;
+    for k in m.s.Keys do
+        if m.s[k] == true {
+            count := count + 1;
+        }
+    count
 }
 
-function insert<T>(m: MapSet<T>, x: T): MapSet<T> 
+function insert<T> (m:MapSet<T>, x:T): MapSet<T> 
 {
-    MapSet(m.s[x := true])
+    MapSet<T>(m.s[x := true])
 }
 
-function delete<T>(m: MapSet<T>, x: T): MapSet<T> 
+function delete<T> (m:MapSet<T>, x:T): MapSet<T> 
 {
-    MapSet(m.s[x := false])
+    MapSet<T>(m.s[x := false])
 }
