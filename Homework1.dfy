@@ -8,14 +8,14 @@ let mystery_function x y z =
   let c = x + z in 
   (a+b+c) / 2
 */
-function mystery_function(x:int,y:int,z:int):int {
 
+function mystery_function(x: int, y: int, z: int) returns (result: int)
+{
     var a := x + y;
     var b := y + z;
     var c := x + z;
-    var result := (a + b + c) / 2;
-    result
-
+    var sum := a + b + c;
+    result := sum / 2;
 }
 
 /* Exercise 2 (20 points)
