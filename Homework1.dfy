@@ -61,13 +61,13 @@ function map<A, B>(f: A -> B, t: Tree<A>): Tree<B>
 }
 
 
-function foldTree<A, B>(f: (A -> B -> B -> B), e: B, t: Tree<A>): B
+function fold<A, B>(f: (A -> B -> B -> B), e: B, t: Tree<A>): B
 {
     match t
     | Leaf => 
         e
     | Node(data, left, right) =>
-        f(data, foldTree(f, e, left), foldTree(f, e, right))
+        f(data, fold(f, e, left), fold(f, e, right))
 }
 
 
