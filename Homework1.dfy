@@ -82,24 +82,32 @@ wrapper, by invoking Dafny map functions as seen on the slides.
 
 datatype MapSet<T> = MapSet (s : map<T,bool>)
 
-predicate member<T> (m:MapSet<T>, x:T) {
-    m.s[x] == true
+predicate member<T>(m: MapSet<T>, x: T)
+{
+    m.s[x]
 }
 
-function size<T> (m:MapSet<T>): int {
+function size<T>(m: MapSet<T>): int
+{
     var count := 0;
-    for key in m.s.Keys {
-        if m.s[key] {
+    ghost var keys := m.s.Keys;
+    ghost var current := keys.GetEnumerator();
+    while current.MoveNext()
+        invariant count == sum<k | k in keys :: if m.s[k] then 1 else 0)
+    {
+        if m.s[current.Current] {
             count := count + 1;
         }
     }
     count
 }
 
-function insert<T> (m:MapSet<T>, x:T): MapSet<T> {
-    MapSet(m.s[x := true])
+function insert<T>(m: MapSet<T>, x: T): MapSet<T>
+{
+    MapSet(s := m.s[x := true])
 }
 
-function delete<T> (m:MapSet<T>, x:T): MapSet<T> {
-    MapSet(m.s[x := false])
+function delete<T>(m: MapSet<T>, x: T): MapSet<T>
+{
+    MapSet(s := m.s[x := false])
 }
