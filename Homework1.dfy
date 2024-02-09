@@ -48,38 +48,28 @@ Here is the stub for map:
 
 */
 
-function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
+function method mapTree<A,B>(f: A -> B, t: Tree<A>): Tree<B>
 {
-    if t == Leaf {
-        Leaf
-    } else {
-        Node(f(t.data), mapTree(f, t.left), mapTree(f, t.right))
+    match t
+    {
+        case Leaf => Leaf
+        case Node(data, left, right) =>
+            Node(f(data), mapTree(f, left), mapTree(f, right))
     }
 }
 
-function foldTree<A, B>(f: (A -> B -> B -> B), e: B, t: Tree<A>): B
-    requires t != null
+method foldTree<T, R>(f: (T, R, R) -> R, e: R, t: Tree<T>) returns (res: R)
 {
-    if t == Leaf {
-        e
-    } else {
-        foldTreeRec(f, t, e)
+    match t
+    {
+        case Leaf => res := e;
+        case Node(data, left, right) =>
+            var leftFolded: R := foldTree(f, e, left);
+            var rightFolded: R := foldTree(f, e, right);
+            res := f(data, leftFolded, rightFolded);
     }
 }
 
-function foldTreeRec<A, B>(f: (A -> B -> B -> B), t: Tree<A>, acc: B): B
-    requires t != null
-    ensures result == foldTree(f, acc, t)
-{
-    if t == Leaf {
-        acc
-    } else {
-        var leftResult := foldTreeRec(f, t.left, acc);
-        var rightResult := foldTreeRec(f, t.right, acc);
-        f(t.data, leftResult, rightResult)
-    }
-}
-/* Fill in your own template for fold, with the same argument order as the OCaml code. */
 
 /* Exercise 3 (20 points)
 
@@ -95,24 +85,19 @@ wrapper, by invoking Dafny map functions as seen on the slides.
 
 datatype MapSet<T> = MapSet (s : map<T,bool>)
 
-predicate member<T>(m: MapSet<T>, x: T)
-{
+predicate member<T> (m: MapSet<T>, x: T) {
     m.s[x]
 }
 
-function size<T>(m: MapSet<T>): int
-{
-    sum<k | k in m.s.Keys :: if m.s[k] then 1 else 0)
+function method size<T>(m: MapSet<T>): nat {
+    |set x | x in m.s && m.s[x]|
 }
 
-function insert<T>(m: MapSet<T>, x: T): MapSet<T>
-{
-    MapSet(s := m.s[x := true])
+function insert<T> (m: MapSet<T>, x: T): MapSet<T> {
+    MapSet(m.s[x := true])
 }
 
-function delete<T>(m: MapSet<T>, x: T): MapSet<T>
-{
-    MapSet(s := m.s[x := false])
+function delete<T> (m: MapSet<T>, x: T): MapSet<T> {
+
+    MapSet(m.s[x := false])
 }
-
-
