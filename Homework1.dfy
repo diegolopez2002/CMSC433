@@ -10,11 +10,16 @@ let mystery_function x y z =
 */
 
 function mystery_function(x:int, y:int, z:int): int {
+
     var a := x + y;
     var b := y + z;
     var c := x + z;
-    (a + b + c) / 2
+    var result := (a + b + c) / 2;
+    result
+
 }
+
+
 /* Exercise 2 (20 points)
 
 You are given the following Dafny datatype, which is equivalent
