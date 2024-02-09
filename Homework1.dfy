@@ -102,17 +102,7 @@ predicate member<T>(m: MapSet<T>, x: T)
 
 function size<T>(m: MapSet<T>): int
 {
-    var count := 0;
-    ghost var keys := m.s.Keys;
-    ghost var current := keys.GetEnumerator();
-    while current.MoveNext()
-        invariant count == sum<k | k in keys :: if m.s[k] then 1 else 0)
-    {
-        if m.s[current.Current] {
-            count := count + 1;
-        }
-    }
-    count
+    sum<k | k in m.s.Keys :: if m.s[k] then 1 else 0)
 }
 
 function insert<T>(m: MapSet<T>, x: T): MapSet<T>
@@ -124,3 +114,5 @@ function delete<T>(m: MapSet<T>, x: T): MapSet<T>
 {
     MapSet(s := m.s[x := false])
 }
+
+
