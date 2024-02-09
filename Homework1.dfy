@@ -89,24 +89,18 @@ predicate member<T> (m:MapSet<T>, x:T) {
 
 function size<T> (m:MapSet<T>): int {
     var count := 0;
-    for k in m.s.Keys do
-        if m.s[k] == true {
+    for key in m.s.Keys {
+        if m.s[key] {
             count := count + 1;
         }
+    }
     count
 }
 
 function insert<T> (m:MapSet<T>, x:T): MapSet<T> {
-    
-    MapSet (map[)
+    MapSet(m.s[x := true])
 }
 
-function insert<T> (m: MapSet<T>, x: T): MapSet<T>
-{
-    MapSet<T>(m.s[x := true])
-}
-
-function delete<T> (m: MapSet<T>, x: T): MapSet<T>
-{
-    MapSet<T>(m.s[x := false])
+function delete<T> (m:MapSet<T>, x:T): MapSet<T> {
+    MapSet(m.s[x := false])
 }
