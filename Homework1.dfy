@@ -51,7 +51,7 @@ Here is the stub for map:
 
 */
 
-function map<A, B>(f: A -> B, t: Tree<A>): Tree<B>
+function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
 {
     match t
     | Leaf => 
