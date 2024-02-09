@@ -51,14 +51,15 @@ Here is the stub for map:
 
 */
 
-function mapTree<A,B> (f: A -> B, t: Tree<A>): Tree<B>
+function map<A, B>(f: A -> B, t: Tree<A>): Tree<B>
 {
     match t
     | Leaf => 
         Leaf
     | Node(data, left, right) =>
-        Node(f(data), mapTree(f, left), mapTree(f, right))
+        Node(f(data), map(f, left), map(f, right))
 }
+
 
 function foldTree<A, B>(f: (A -> B -> B -> B), e: B, t: Tree<A>): B
 {
