@@ -14,8 +14,7 @@ function mystery_function(x: int, y: int, z: int): int
     var a := x + y;
     var b := y + z;
     var c := x + z;
-    var sum := a + b + c;
-    result := sum / 2;
+    (a + b + c) / 2
 }
 
 /* Exercise 2 (20 points)
@@ -51,19 +50,19 @@ Here is the stub for map:
 
 function mapTree<A, B>(f: A -> B, t: Tree<A>): Tree<B>
 {
-    match t
-    {
-        case Leaf => Leaf;
-        case Node(data, left, right) => Node(f(data), mapTree(f, left), mapTree(f, right));
+    if t == Leaf {
+        Leaf
+    } else {
+        Node(f(t.data), mapTree(f, t.left), mapTree(f, t.right))
     }
 }
 
 function foldTree<A, B>(f: (A -> B -> B -> B), e: B, t: Tree<A>): B
 {
-    match t
-    {
-        case Leaf => e;
-        case Node(data, left, right) => f(data, foldTree(f, e, left), foldTree(f, e, right));
+    if t == Leaf {
+        e
+    } else {
+        f(t.data, foldTree(f, e, t.left), foldTree(f, e, t.right))
     }
 }
 
