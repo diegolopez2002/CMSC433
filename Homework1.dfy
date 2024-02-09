@@ -65,7 +65,6 @@ function foldTree<A, B>(f: (A -> B -> B -> B), e: B, t: Tree<A>): B
         f(t.data, foldTree(f, e, t.left), foldTree(f, e, t.right))
     }
 }
-
 /* Fill in your own template for fold, with the same argument order as the OCaml code. */
 
 /* Exercise 3 (20 points)
