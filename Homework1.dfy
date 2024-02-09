@@ -9,7 +9,7 @@ let mystery_function x y z =
   (a+b+c) / 2
 */
 
-function mystery_function(x: int, y: int, z: int) returns (result: int)
+function mystery_function(x: int, y: int, z: int): int
 {
     var a := x + y;
     var b := y + z;
